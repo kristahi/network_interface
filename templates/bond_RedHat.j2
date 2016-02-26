@@ -25,3 +25,11 @@ USERCTL=no
 ONBOOT={{ item.onboot|default("yes") }}
 BOOTPROTO=dhcp
 {% endif %}
+
+{% if item.nm_controlled is defined %}
+NM_CONTROLLED={{ item.nm_controlled }}
+{% endif %}
+
+{% if item.defroute is defined %}
+DEFROUTE={{ item.defroute }}
+{% endif %}
