@@ -33,3 +33,7 @@ NM_CONTROLLED={{ item.nm_controlled }}
 {% if item.defroute is defined %}
 DEFROUTE={{ item.defroute }}
 {% endif %}
+
+{% if item.mtu is defined %}
+MTU={{ item.mtu }}
+{% endif %}
