@@ -45,45 +45,52 @@ Examples
 
 1) Configure eth1 and eth2 on a host with a static IP and a dhcp IP. Also
 define static routes and a gateway.
-
+```
     - hosts: myhost
       roles:
         - role: network
           network_ether_interfaces:
-           - device: eth1
-             bootproto: static
-             address: 192.168.10.18
-             netmask: 255.255.255.0
-             gateway: 192.168.10.1
-             route:
-              - network: 192.168.200.0
-                netmask: 255.255.255.0
-                gateway: 192.168.10.1
-              - network: 192.168.100.0
-                netmask: 255.255.255.0
-                gateway: 192.168.10.1
-           - device: eth2
-             bootproto: dhcp
+            - device: eth1
+              bootproto: static
+              address: 192.168.10.18
+              netmask: 255.255.255.0
+              gateway: 192.168.10.1
+              route:
+                - network: 192.168.200.0
+                  netmask: 255.255.255.0
+                  gateway: 192.168.10.1
+                - network: 192.168.100.0
+                  netmask: 255.255.255.0
+                  gateway: 192.168.10.1
+            - device: eth2
+              bootproto: dhcp
+```
 
 2) Configure a bridge interface with multiple NIcs added to the bridge.
-
+```
     - hosts: myhost
       roles:
         - role: network
           network_bridge_interfaces:
-           -  device: br1
+            - device: br1
               type: bridge
               address: 192.168.10.10
               netmask: 255.255.255.0
+              gateway: 192.168.10.1
               bootproto: static
               stp: "on"
-              ports: [eth1, eth2]
+          network_ether_interfaces:
+            - device: eth1
+              bootproto: none
+              onboot: yes
+              bridge: br1
+```
 
 Note: Routes can also be added for this interface in the same way routes are
 added for ethernet interfaces.
 
 3) Configure a bond interface with an "active-backup" slave configuration.
-
+```
     - hosts: myhost
       roles:
         - role: network
@@ -96,13 +103,14 @@ added for ethernet interfaces.
               bond_miimon: 100
               bond_slaves: [eth1, eth2]
               route:
-              - network: 192.168.222.0
-                netmask: 255.255.255.0
-                gateway: 192.168.10.1
+                - network: 192.168.222.0
+                  netmask: 255.255.255.0
+                  gateway: 192.168.10.1
+```
 
 4) Configure a bonded interface with "802.3ad" as the bonding mode and IP
 address obtained via DHCP.
-
+```
     - hosts: myhost
       roles:
         - role: network
@@ -112,23 +120,25 @@ address obtained via DHCP.
               bond_mode: 802.3ad
               bond_miimon: 100
               bond_slaves: [eth1, eth2]
+```
 
 5) Configure a VLAN interface with the vlan tag 2 for an ethernet interface
-
+```
     - hosts: myhost
       roles:
         - role: network
           network_ether_interfaces:
-           - device: eth1
-             bootproto: static
-             address: 192.168.10.18
-             netmask: 255.255.255.0
-             gateway: 192.168.10.1
+            - device: eth1
+              bootproto: static
+              address: 192.168.10.18
+              netmask: 255.255.255.0
+              gateway: 192.168.10.1
           network_vlan_interfaces:
-	   - device: eth1.2
-	     bootproto: static
-	     address: 192.168.20.18
-	     netmask: 255.255.255.0
+	          - device: eth1.2
+	            bootproto: static
+	            address: 192.168.20.18
+	            netmask: 255.255.255.0
+```
 
 6) All the above examples show how to configure a single host, The below
 example shows how to define your network configurations for all your machines.
