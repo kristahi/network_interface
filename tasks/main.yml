@@ -1,4 +1,11 @@
 ---
+- name: Check if the bridge ports are still defined using the old way
+  fail:
+    msg: "Ports shouldn't be defined this way."
+  when: item.ports is defined
+  with_items:
+    - "{{ network_bridge_interfaces }}"
+
 - name: Add the OS specific varibles
   include_vars: "{{ ansible_os_family }}.yml"
 
@@ -95,15 +102,5 @@
   template: src=route_{{ ansible_os_family }}.j2 dest={{ net_path }}/route-{{ item.device }}
   with_items: "{{ network_bridge_interfaces }}"
   when: network_bridge_interfaces is defined and item.route is defined and ansible_os_family == 'RedHat'
-  notify:
-   - restart network
-
-- name: Create the network configuration file for port on the bridge devices
-  lineinfile: dest={{ net_path }}/ifcfg-{{ item.1 }} regexp='^BRIDGE=' line=BRIDGE={{ item.0.device }}
-  with_subelements:
-    - "{{network_bridge_interfaces}}"
-    - ports
-  when: network_bridge_interfaces is defined
-  register: bridge_port_result
   notify:
    - restart network
