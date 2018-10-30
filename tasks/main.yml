@@ -54,6 +54,10 @@
   notify:
    - restart network
 
+- name: template in bonding.conf module settings
+  template: src=bonding.conf.j2 dest={{ bond_modules_path}}/bonding.conf
+  when: network_bond_interfaces is defined and network_extra_bonding_module_options != ""
+
 - name: Make sure the bonding module is loaded
   modprobe: name=bonding state=present
   when: bond_result is changed

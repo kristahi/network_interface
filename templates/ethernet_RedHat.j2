@@ -52,3 +52,6 @@ DEFROUTE={{ item.defroute }}
 {%- if item.mtu is defined -%}
 MTU={{ item.mtu }}
 {% endif %}
+{%- if item.zeroconf is defined -%}
+NOZEROCONF={{ item.zeroconf }}
+{% endif %}

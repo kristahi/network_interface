@@ -36,6 +36,9 @@ DEFROUTE={{ item.defroute }}
 {% if item.mtu is defined %}
 MTU={{ item.mtu }}
 {% endif %}
+{%- if item.zeroconf is defined -%}
+NOZEROCONF={{ item.zeroconf }}
+{% endif %}
 
 {% if item.bonding_master is defined %}
 BONDING_MASTER={{ item.bonding_master }}
