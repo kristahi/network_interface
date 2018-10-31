@@ -15,6 +15,7 @@ machines. The role can be used to configure:
 - Bonded interfaces
 - VLAN tagged interfaces
 - Network routes
+- Bonding Kernel Module parameters
 
 Requirements
 ------------
@@ -91,13 +92,16 @@ define static routes and a gateway.
 Note: Routes can also be added for this interface in the same way routes are
 added for ethernet interfaces.
 
-3) Configure a bond interface with an "active-backup" slave configuration.
+3) Configure a bond-ext interface with an "active-backup" slave configuration.
+Also set max_bonds=0 parameter to the bonding kernel module. Preventing
+an empty bond0 from being created.
 ```
     - hosts: myhost
       roles:
         - role: network
+          network_extra_bonding_module_options: "max_bonds=0"
           network_bond_interfaces:
-            - device: bond0
+            - device: bond-ext
               address: 192.168.10.128
               netmask: 255.255.255.0
               bootproto: static
@@ -124,7 +128,9 @@ address obtained via DHCP.
               bond_slaves: [eth1, eth2]
 ```
 
-5) Configure a VLAN interface with the vlan tag 2 for an ethernet interface
+5) Configure a VLAN interface with the vlan tag 2 for an ethernet interface 
+and set nozeroconf to True (no 169.254.0.0/16 link local address).
+
 ```
     - hosts: myhost
       roles:
@@ -132,6 +138,7 @@ address obtained via DHCP.
           network_ether_interfaces:
             - device: eth1
               bootproto: static
+              nozeroconf: True
               address: 192.168.10.18
               netmask: 255.255.255.0
               gateway: 192.168.10.1
@@ -160,6 +167,7 @@ Describe your network configuration for each host in host vars:
     network_ether_interfaces:
            - device: eth1
              bootproto: static
+             nozeroconf: True
              address: 192.168.10.18
              netmask: 255.255.255.0
              gateway: 192.168.10.1
