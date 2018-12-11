@@ -70,6 +70,7 @@ define static routes and a gateway.
 ```
 
 2) Configure a bridge interface with multiple NIcs added to the bridge.
+Also set bridging_opts, an example in case you need multicasting.
 ```
     - hosts: myhost
       roles:
@@ -82,6 +83,7 @@ define static routes and a gateway.
               gateway: 192.168.10.1
               bootproto: static
               stp: "on"
+              bridging_opts: "multicast_snooping=1 multicast_querier=1"
           network_ether_interfaces:
             - device: eth1
               bootproto: none
