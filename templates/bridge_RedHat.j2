@@ -57,3 +57,6 @@ MTU={{ item.mtu }}
 {%- if item.nozeroconf is defined -%}
 NOZEROCONF={{ item.nozeroconf }}
 {% endif %}
+{%- if item.bridging_opts is defined -%}
+BRIDGING_OPTS="{{ item.bridging_opts }}"
+{% endif %}
