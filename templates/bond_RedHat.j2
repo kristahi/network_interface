@@ -50,3 +50,9 @@ BRIDGE={{ item.bridge }}
 {%- if item.zone is defined -%}
 ZONE={{ item.zone }}
 {% endif %}
+{%- if item.dns1 is defined -%}
+DNS1={{ item.dns1 }}
+{% endif %}
+{%- if item.dns2 is defined -%}
+DNS2={{ item.dns2 }}
+{% endif %}
