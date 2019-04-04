@@ -47,3 +47,6 @@ BONDING_MASTER={{ item.bonding_master }}
 {% if item.bridge is defined %}
 BRIDGE={{ item.bridge }}
 {% endif %}
+{%- if item.zone is defined -%}
+ZONE={{ item.zone }}
+{% endif %}

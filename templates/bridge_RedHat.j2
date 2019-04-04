@@ -60,3 +60,6 @@ NOZEROCONF={{ item.nozeroconf }}
 {%- if item.bridging_opts is defined -%}
 BRIDGING_OPTS="{{ item.bridging_opts }}"
 {% endif %}
+{%- if item.zone is defined -%}
+ZONE={{ item.zone }}
+{% endif %}

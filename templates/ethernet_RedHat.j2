@@ -55,3 +55,6 @@ MTU={{ item.mtu }}
 {%- if item.nozeroconf is defined -%}
 NOZEROCONF={{ item.nozeroconf }}
 {% endif %}
+{%- if item.zone is defined -%}
+ZONE={{ item.zone }}
+{% endif %}
