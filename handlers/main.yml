@@ -1,4 +1,11 @@
 ---
-- name: restart network
+- name: restart network with service
   service: name=network state=restarted
-  when: network_allow_service_restart
+  when: network_allow_service_restart and ansible_os_family == 'RedHat'
+  listen: "restart network"
+
+- name: restart network with ifupdown
+  #shell: ifdown {{ item.item.device }}; ifup {{ item.item.device }}
+  shell: ifdown -a; ifup -a
+  when: network_allow_service_restart and ansible_os_family == "Debian"
+  listen: "restart network"
