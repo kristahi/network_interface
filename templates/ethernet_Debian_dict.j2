@@ -1,0 +1,24 @@
+{% if item.value.bootproto == 'static' %}
+auto {{ item.key }}
+iface {{ item.key }}  inet static
+{% if item.value.address is defined %}
+address {{ item.value.address }}
+{% endif %}
+{% if item.value.netmask is defined %}
+netmask {{ item.value.netmask }}
+{% endif %}
+{% if item.value.gateway is defined %}
+gateway {{ item.value.gateway }}
+{% endif %}
+{% endif %}
+
+{% if item.value.bootproto == 'dhcp' %}
+auto {{ item.key }}
+iface {{ item.key }}  inet dhcp
+{% endif %}
+
+{% if item.value.route is defined %}
+{% for i in item.value.route %}
+up route add -net {{ i.network }}  netmask {{ i.netmask }} gw {{ i.gateway }} dev {{ item.key }}
+{% endfor %}
+{% endif %}

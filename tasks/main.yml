@@ -38,8 +38,8 @@
   when: ansible_os_family == "Debian"
 
 - name: Create the network configuration file for ethernet devices
-  template: src=ethernet_{{ ansible_os_family }}.j2 dest={{ net_path }}/ifcfg-{{ item.device }}
-  with_items: "{{ network_ether_interfaces }}"
+  template: src=ethernet_{{ ansible_os_family }}_dict.j2 dest={{ net_path }}/ifcfg-{{ item.key }}
+  with_dict: "{{ network_ether_interfaces }}"
   when: network_ether_interfaces is defined
   register: ether_result
   notify:
